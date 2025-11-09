@@ -10,7 +10,7 @@ async function getWeather(){
         //recebe o valor do input
         const loc = await fetch(`https://nominatim.openstreetmap.org/search?q=${input.value.trim()}&format=json`); 
         const locParsed = await loc.json();
-        console.log(locParsed)
+        console.log(locParsed);
 
         for(let i=0; i<locParsed.length; i++){
             //recebe o valor da latitude e longitude
@@ -20,7 +20,7 @@ async function getWeather(){
             try{
                 //usa lat e lon pra puxar informações referentes a geolocalização
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?&forecast_days=1&latitude=${myLat}&longitude=${myLon}&timezone=auto&current=temperature_2m&current=precipitation_probability&current=cloud_cover&hourly=temperature_2m&hourly=precipitation_probability`);
-                const parsed = await res.json()
+                const parsed = await res.json();
 
                 //informações de clima atuais
                 const currTime = parsed.current.time;
@@ -58,23 +58,32 @@ async function getWeather(){
                 location.appendChild(locText);
                 locationDetail.appendChild(locDetText);
 
+                locationDetail.className = "detail";
+
                 div.appendChild(location);
                 div.appendChild(locationDetail);
-                div.appendChild(locInfor)
+                div.appendChild(locInfor);
+
+                div.style.display = "block";
             }
             catch(err){
                 console.log(err);
+                pname.textContent = "Error !";
+                sname.textContent = err;
             }
         }
     }
     catch(err){
         console.log(err);
+        pname.textContent = "Error !";
+        sname.textContent = err;
     }
 }
 
 //chama a função quando o botão é clicado
 btn.addEventListener("click", (e) =>{
     div.innerHTML="";
+    div.style.display = "none";
     e.preventDefault();
     getWeather();
-})
+});
