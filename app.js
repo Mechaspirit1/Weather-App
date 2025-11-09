@@ -19,18 +19,22 @@ async function getWeather(){
 
             try{
                 //usa lat e lon pra puxar informações referentes a geolocalização
-                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${myLat}&longitude=${myLon}&timezone=auto&current=temperature_2m`);
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${myLat}&longitude=${myLon}&timezone=auto&current=temperature_2m&current=precipitation_probability&current=cloud_cover`);
                 const parsed = await res.json()
 
                 //informações de clima
                 const currTime = parsed.current.time;
                 const currTemp = parsed.current.temperature_2m;
+                const currProb = parsed.current.precipitation_probability;
+                const currSky = parsed.current.cloud_cover;
                 const timezone = parsed.timezone_abbreviation;
+
+                console.log(parsed);
 
                 //Gera uma lista com todas as intancias de cidades e locais com o mesmo nome atraves do mundo
                 const place = locParsed[i].name;
                 const placeDetail = locParsed[i].display_name;
-                const genInfor = `${currTime}, ${timezone}, ${currTemp}°C`;
+                const genInfor = `${currTime}, ${timezone}, ${currTemp}°C, ${currProb}% Chance of rain, ${currSky}% Cloud Coverage`;
 
                 const location = document.createElement("h1");
                 const locationDetail = document.createElement("h2");
