@@ -41,7 +41,7 @@ async function getWeather(){
 
                 //Gera uma lista com todas as intancias de cidades e locais com o mesmo nome atraves do mundo
                 const place = locParsed[i].name;
-                const placeDetail = locParsed[i].display_name;
+                const placeDetail = locParsed[i].display_name.split(",").slice(0,3);
                 const genInfor = `${currTime}, ${timezone}
                                   ${currTemp}°C Current --- ${dailyAvg}°C Average 
                                   ${currProb}% Chance of rain --- ${currSky}% Cloud Coverage`;
