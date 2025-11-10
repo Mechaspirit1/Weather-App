@@ -1,16 +1,28 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 body{
     font-family: "Roboto", sans-serif;
-    margin: 10 auto;
     background-color: rgb(230, 239, 245);
     display:flex;
     flex-direction: column;
 }
+
 #present{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: rgb(46, 46, 46);
     padding: 3%;
-    background-position: 100%;
-    margin: -1%;
     color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 10px 10px 24px;
+    background-position: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #info{
@@ -22,11 +34,8 @@ body{
     border-radius: 30px;
     align-self: center;
     align-items: center;
-    transition: 0.1s;
-}
-
-#info:hover{
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: 0.1s;
 }
 
 h1{
@@ -63,8 +72,9 @@ input{
     text-align: center;
     font-size: 20px;
     padding: 20px 10px;
-    border: 2px solid rgb(46, 46, 46);
+    border: 2px solid rgb(255, 196, 0);
     border-radius: 10px;
+    background-color: rgb(230, 239, 245);
 }
 
 button{
