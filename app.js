@@ -19,7 +19,7 @@ async function getWeather(){
 
             try{
                 //usa lat e lon pra puxar informações referentes a geolocalização
-                const res = await fetch(`https://api.open-meteo.com/v1/forecast?&forecast_days=1&latitude=${myLat}&longitude=${myLon}&timezone=auto&current=temperature_2m&current=precipitation_probability&current=cloud_cover&hourly=temperature_2m&hourly=precipitation_probability`);
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?&forecast_days=1&latitude=${myLat}&longitude=${myLon}&timezone=auto&current=temperature_2m&current=precipitation_probability&current=cloud_cover&hourly=temperature_2m&hourly=precipitation_probability&hourly=wind_speed_10m`);
                 const parsed = await res.json();
 
                 //informações de clima atuais
@@ -29,12 +29,16 @@ async function getWeather(){
                 const currSky = parsed.current.cloud_cover;
                 const timezone = parsed.timezone_abbreviation;
 
-                //Média de temperatura do dia
+                //Média de temperatura e velocidade do ar do dia
                 let dailyAvg = 0;
+                let windSpeed = 0;
+
                 for (let i = 0; i < 24; i++) {
-                dailyAvg += parsed.hourly.temperature_2m[i];
+                    dailyAvg += parsed.hourly.temperature_2m[i];
+                    windSpeed += parsed.hourly.wind_speed_10m[i];
                 }
                 dailyAvg = (dailyAvg / 24).toFixed(1);
+                windSpeed = (windSpeed/24).toFixed(1);
 
                 console.log(dailyAvg);
                 console.log(parsed);
@@ -44,13 +48,29 @@ async function getWeather(){
                 const placeDetail = locParsed[i].display_name.split(",").slice(0,3);
                 const genInfor = `${currTime}, ${timezone}
                                   ${currTemp}°C Current --- ${dailyAvg}°C Average 
-                                  ${currProb}% Chance of rain --- ${currSky}% Cloud Coverage`;
+                                  ${currProb}% Chance of rain --- ${currSky}% Cloud Coverage
+                                  ${windSpeed}Km/h Wind speed Avg.`;
 
                 const location = document.createElement("h1");
                 const locationDetail = document.createElement("h2");
                 const locInfor = document.createElement("h3");
 
-                const locText = document.createTextNode(place);
+                //Emoji representando condições atuais
+                let icon = "☀️";
+                if(currProb > 50){
+                    icon = "🌧️";
+                }
+                else if(currSky > 70){
+                    icon = "☁️";
+                }
+                else if(currTemp < 5){
+                    icon = "❄️";
+                }
+                else if(windSpeed > 50){
+                    icon = icon + '💨';
+                }
+
+                const locText = document.createTextNode(`${place} ${icon}`);
                 const locDetText = document.createTextNode(placeDetail);
                 const locInforText = document.createTextNode(genInfor);
 
